@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 
 class WallpaperProvider extends GetxController {
+  int page = 1;
   @override
   void onReady() {
 
@@ -27,7 +28,7 @@ class WallpaperProvider extends GetxController {
   Future<void> randomPhoto() async {
     try {
       loading.value = true;
-      var url = Uri.parse('https://api.pexels.com/v1/curated');
+      var url = Uri.parse('https://api.pexels.com/v1/curated?page=$page&per_page=14');
       var response = await http
           .get(url, headers: {'Authorization': _apiKey})
           .timeout(const Duration(seconds: 10))
@@ -62,9 +63,9 @@ class WallpaperProvider extends GetxController {
       loading.value = true;
       Uri url;
       if (item == 'curated') {
-        url = Uri.parse('https://api.pexels.com/v1/curated');
+        url = Uri.parse('https://api.pexels.com/v1/curated?page=$page&per_page=14');
       } else {
-        url = Uri.parse('https://api.pexels.com/v1/search?query=$item');
+        url = Uri.parse('https://api.pexels.com/v1/search?query=$item&page={page&per_page=14');
       }
       var response = await http
           .get(url, headers: {'Authorization': _apiKey})

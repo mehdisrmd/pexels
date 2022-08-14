@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
         appBar: appBarHomeScreen(),
         body: Column(
           children: [
-             const SearchBox(),
+              SearchBox(),
             GetX<WallpaperProvider>(builder: (controller) {
               return controller.loading.value
                   ?const Center(
@@ -29,7 +29,7 @@ class HomeScreen extends StatelessWidget {
                                 CircularProgressIndicator(color: Colors.green)),
                       ),
                   )
-                  : const GridViewBuilderWidget();
+                  :  GridViewBuilderWidget();
             })
           ],
         ));

@@ -5,16 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:unsplash/controllers/wallpaper_Provider.dart';
 
-class SearchBox extends StatefulWidget {
-  const SearchBox({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<SearchBox> createState() => _SearchBoxState();
-}
-
-class _SearchBoxState extends State<SearchBox> {
+class SearchBox extends StatelessWidget {
   var item = TextEditingController();
   Timer? searchOnStoppedTyping;
   void onChangeHandler(value) {
@@ -26,6 +17,7 @@ class _SearchBoxState extends State<SearchBox> {
       duration,
       () {
         if (item.text != '') {
+          Get.find<WallpaperProvider>().page = 1;
           Get.find<WallpaperProvider>().searchWallpaper(item.text);
         }
       },
@@ -70,11 +62,5 @@ class _SearchBoxState extends State<SearchBox> {
             border: InputBorder.none),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    searchOnStoppedTyping?.cancel();
-    super.dispose();
   }
 }

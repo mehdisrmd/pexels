@@ -2,15 +2,14 @@
 
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:get/route_manager.dart';
 import 'package:unsplash/controllers/wallpaper_Provider.dart';
 
-
 class GridViewBuilderWidget extends StatelessWidget {
-  const GridViewBuilderWidget({Key? key}) : super(key: key);
+  final cont = ScrollController();
 
- 
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -20,8 +19,23 @@ class GridViewBuilderWidget extends StatelessWidget {
         ),
         margin: const EdgeInsets.only(top: 10, bottom: 10),
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: GetBuilder<WallpaperProvider>(builder: ((controller) {
+        child: GetBuilder<WallpaperProvider>(initState: (state) {
+          cont.addListener(() {
+            print('first');
+            if (cont.position.maxScrollExtent == cont.offset) {
+              print('lageter');
+              Get.find<WallpaperProvider>().page++;
+              Get.find<WallpaperProvider>()
+                  .searchWallpaper(
+                    Get.find<WallpaperProvider>().item,
+                  )
+                  .then((value) =>
+                      Get.find<WallpaperProvider>().loading.value = false);
+            }
+          });
+        }, builder: ((controller) {
           return GridView.builder(
+            controller: cont,
             shrinkWrap: true,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: Platform.isWindows ? 3 : 2,
